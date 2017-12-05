@@ -89,13 +89,18 @@ h4 {
   border: 2px solid #4376EF;
 }
 
-#input-container span {
+#input-container button {
   cursor: pointer;
   width: 30%;
   background: #4376EF;
   color: white;
   text-align: center;
-  padding: 2%;
+  padding: 3%;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }
 
 #locations-container {

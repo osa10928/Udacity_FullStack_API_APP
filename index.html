@@ -26,11 +26,11 @@
           Locations
         </h4>
       </header>
-      <div id="input-container">
+      <form id="input-container" data-bind="submit: fireBoth">
         <input data-bind="value: filterInput" />
-        <span data-bind="click: $root.filterLocations">Filter</span>
-      </div>
-      <div id="locations-container" data-bind="foreach: locations">
+        <button type="submit">Filter</button>
+      </form>
+      <div id="locations-container" data-bind="foreach: filterLocations">
         <div data-bind="text: title"></div>
       </div>
     <section>

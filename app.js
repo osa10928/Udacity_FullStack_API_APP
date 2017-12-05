@@ -34,9 +34,8 @@ export function initMap() {
 
 class MyApp {
   constructor() {
-    this.markers = markers;
-    this._locations = JSON.parse(JSON.stringify(locations))
-    this.filterInput = ""
+    this.locations = JSON.parse(JSON.stringify(locations))
+    this.filterInput = ko.observable()
     this.toggleOpenClose = () => {
       let bars = [];
       let filterSection = document.getElementById("filter-section")
@@ -48,16 +47,33 @@ class MyApp {
         bars[i].classList.toggle("change")
       }
     }
-  }
-  get locations() {
-    if (this.filterInput) {
-      this.filterInput = this.filterInput.trim().replace(/ +/g, ' ').toLowerCase()
-      locations = this._locations.filter((location) => {
-        location.title = location.title.trim().replace(/ +/g, ' ').toLowerCase()
-        return location.title.indexOf(this.filterInput) !== -1
+    this.filterLocations = ko.computed(() => {
+      let locations = JSON.parse(JSON.stringify(this.locations))
+      if (this.filterInput()) {
+        let filterInput = this.filterInput().trim().replace(/ +/g, ' ').toLowerCase()
+        locations = locations.filter((location) => {
+          let title = location.title.trim().replace(/ +/g, ' ').toLowerCase()
+          return title.indexOf(filterInput) !== -1
+        })
+      }
+      return locations
+    })
+    this.filterMarkers = () => {
+      console.log('hey')
+      let filterInput = this.filterInput().trim().replace(/ +/g, ' ').toLowerCase()
+      markers.map((marker) => {
+        if ((marker.title).indexOf(filterInput) === -1 || (marker.title).indexOf(filterInput) === undefined) {
+          marker.map = map
+        } else {
+          marker.map = null
+        }
       })
+      console.log(markers)
     }
-    return locations
+    this.fireBoth = () => {
+      this.filterMarkers()
+      this.filterLocations
+    }
   }
 }
 
