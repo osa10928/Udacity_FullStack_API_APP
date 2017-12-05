@@ -34,8 +34,13 @@ export function initMap() {
 
 class MyApp {
   constructor() {
+    this.markers = markers;
+    this._locations = JSON.parse(JSON.stringify(locations))
+    this.filterInput = ""
     this.toggleOpenClose = () => {
       let bars = [];
+      let filterSection = document.getElementById("filter-section")
+      filterSection.classList.toggle('hide')
       bars.push(document.getElementsByClassName("bar1")[0])
       bars.push(document.getElementsByClassName("bar2")[0])
       bars.push(document.getElementsByClassName("bar3")[0])
@@ -43,6 +48,16 @@ class MyApp {
         bars[i].classList.toggle("change")
       }
     }
+  }
+  get locations() {
+    if (this.filterInput) {
+      this.filterInput = this.filterInput.trim().replace(/ +/g, ' ').toLowerCase()
+      locations = this._locations.filter((location) => {
+        location.title = location.title.trim().replace(/ +/g, ' ').toLowerCase()
+        return location.title.indexOf(this.filterInput) !== -1
+      })
+    }
+    return locations
   }
 }
 

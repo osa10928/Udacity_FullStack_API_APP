@@ -4,8 +4,14 @@ html, body {
   padding: 0;
 }
 
+body {
+  display: flex;
+}
+
 main {
+  width: 100%;
   height: 100%;
+  order: 1;
 }
 
 
@@ -19,6 +25,7 @@ header {
 #menu-icon {
     display: inline-block;
     cursor: pointer;
+    margin-right: 10%;
 }
 
 .bar1, .bar2, .bar3 {
@@ -26,7 +33,6 @@ header {
   height: 5px;
   background-color: #4376EF;
   margin: 6px 0;
-  margin-right: 10px;
   transition: 0.4s;
 }
 
@@ -51,4 +57,62 @@ h2 {
 
 #map {
   height: 100%;
+}
+
+section {
+  width: 28%;
+  padding: 0 2.5%;
+  background: black;
+  order: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1000px;
+  transition: max-width 1s linear, padding .5s linear;
+}
+
+section header {
+  background: transparent;
+}
+
+h4 {
+  color: white;
+}
+
+#input-container {
+  display: flex;
+  text-align: center;
+}
+
+#input-container input {
+  width: 70%;
+  border: 2px solid #4376EF;
+}
+
+#input-container span {
+  cursor: pointer;
+  width: 30%;
+  background: #4376EF;
+  color: white;
+  text-align: center;
+  padding: 2%;
+}
+
+#locations-container {
+  color: white;
+  text-align: center;
+  padding: 2% 0;
+  margin-top: 5%;
+}
+
+#locations-container div {
+  margin-top: 20%;
+  cursor: pointer;
+  padding: 10% 0;
+}
+
+.hide {
+  max-width: 0;
+  overflow: hidden;
+  padding: 0;
 }

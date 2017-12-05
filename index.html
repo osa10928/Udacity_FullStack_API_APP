@@ -9,9 +9,9 @@
     <main>
       <header>
         <div id="menu-icon" data-bind="click: toggleOpenClose">
-          <div class="bar1"></div>
-          <div class="bar2"></div>
-          <div class="bar3"></div>
+          <div class="bar1 change"></div>
+          <div class="bar2 change"></div>
+          <div class="bar3 change"></div>
         </div>
         <h2>
           Bars on Washington Street, Houston, TX
@@ -20,7 +20,19 @@
       <div id="map" data-bind="text: name">
       </div>
     </main>
-    <section>
+    <section id="filter-section">
+      <header>
+        <h4>
+          Locations
+        </h4>
+      </header>
+      <div id="input-container">
+        <input data-bind="value: filterInput" />
+        <span data-bind="click: $root.filterLocations">Filter</span>
+      </div>
+      <div id="locations-container" data-bind="foreach: locations">
+        <div data-bind="text: title"></div>
+      </div>
     <section>
 
     <script type="text/javascript" src="build/bundle.js"></script>
