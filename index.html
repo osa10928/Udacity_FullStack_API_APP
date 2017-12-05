@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Neighborhood Map</title>
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div id="menu-icon" data-bind="click: toggleOpenClose">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
+        <h2>
+          Bars on Washington Street, Houston, TX
+        </h2>
+      </header>
+      <div id="map" data-bind="text: name">
+      </div>
+    </main>
+    <section>
+    <section>
+
+    <script type="text/javascript" src="build/bundle.js"></script>
+    <script defer
+      src="http://maps.google.com/maps/api/js?key=AIzaSyC5R3Ur4VVSCu-iiNprDLrjLSrFYtbhLEM&v=3&callback=initMap">
+    </script>
+  </body>
+</html>
