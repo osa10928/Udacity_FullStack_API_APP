@@ -61,14 +61,16 @@ h2 {
 
 section {
   width: 28%;
+  height: 100%;
   padding: 0 2.5%;
+  min-width: 150px;
   background: black;
   order: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 1000px;
-  transition: max-width 1s linear, padding .5s linear;
+  transition: max-width .2s linear, padding .5s linear, min-width .5s linear;
 }
 
 section header {
@@ -77,16 +79,21 @@ section header {
 
 h4 {
   color: white;
+  margin-top: 50%;
 }
 
 #input-container {
   display: flex;
   text-align: center;
+  align-items: center;
+  height: 50px;
+  margin-top: 15%;
 }
 
 #input-container input {
   width: 70%;
   border: 2px solid #4376EF;
+  padding: 2% 0;
 }
 
 #input-container button {
@@ -103,6 +110,14 @@ h4 {
   appearance: none;
 }
 
+section a {
+  font-style: italic;
+  font-weight: bold;
+  color: white;
+  display: block;
+  margin-top: 10%;
+}
+
 #locations-container {
   color: white;
   text-align: center;
@@ -114,10 +129,23 @@ h4 {
   margin-top: 20%;
   cursor: pointer;
   padding: 10% 0;
+  width: 100%;
+  transition: color .75s, background-color .75s;
+}
+
+#locations-container div:hover, #locations-container div:active {
+  background-color: white;
+  color: black;
+}
+
+.location-selected {
+  background-color: white;
+  color: black;
 }
 
 .hide {
   max-width: 0;
+  min-width: 0;
   overflow: hidden;
   padding: 0;
 }

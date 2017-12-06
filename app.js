@@ -6,19 +6,40 @@ window.initMap = initMap;
 let map;
 let markers = [];
 let locations = [
-  {position: {lat: 29.7703, lng: -95.4157}, title: 'Kungfu Saloon'},
+  {position: {lat: 29.7703, lng: -95.4157}, title: 'Kung Fu Saloon'},
   {position: {lat: 29.7704, lng: -95.4151}, title: 'Concrete Cowboy'},
   {position: {lat:29.7706 , lng: -95.4130}, title: 'Lincoln Bar'},
   {position: {lat: 29.7717, lng: -95.4089}, title: 'AURA'},
   {position: {lat: 29.7694, lng: -95.4110}, title: 'Fuego\'s Saloon'}
 ];
+let infoWindow;
+
+function populateInfoWindow(marker, infoWindow) {
+  if (infoWindow.marker != marker) {
+    infoWindow.marker = marker
+    infoWindow.setContent('<div>' + marker.title + '</div>')
+    let featuredLocations = document.getElementsByClassName('featured-locations')
+    for (var i=0;i<featuredLocations.length;i++) {
+      if (featuredLocations[i].id === marker.title) {
+        featuredLocations[i].classList.add('location-selected')
+      } else {
+        featuredLocations[i].className.indexOf('location-selected') > -1 ? featuredLocations[i].classList.remove('location-selected') : null
+      }
+    }
+  }
+  infoWindow.open(map, marker)
+  infoWindow.addListener('closeclick', function() {
+    document.getElementById(marker.title).classList.remove('location-selected')
+  })
+  document.getElementById(marker.title).classList.add('location-selected')
+}
 
 export function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 29.7704458 , lng: -95.4120785 },
+    center: { lat: 29.7706 , lng: -95.4120 },
     zoom: 16
   });
-  var kungFu = {lat: 29.7703, lng: -95.4157}
+  infoWindow = new google.maps.InfoWindow();
   for (var i=0;i<locations.length; i++) {
     var marker = new google.maps.Marker({
       position: locations[i].position,
@@ -28,6 +49,9 @@ export function initMap() {
       id: i
     });
     markers.push(marker);
+    marker.addListener('click', function() {
+      populateInfoWindow(this, infoWindow)
+    });
   }
 }
 
@@ -79,6 +103,16 @@ class MyApp {
       console.log("lalala")
       this.filterMarkers()
       this.filterLocations
+    }
+    this.resetFilters = () => {
+      this.filterInput("")
+      this.fireFilters()
+    }
+    this.popInfoWindow = (e) => {
+      let marker = markers.filter((marker) => {
+        return e.title === marker.title
+      })
+      google.maps.event.trigger(marker[0], 'click')
     }
   }
 }

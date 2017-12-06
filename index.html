@@ -30,8 +30,9 @@
         <input id="filterInput" data-bind="value: filterInput" />
         <button type="submit">Filter</button>
       </form>
+      <a href="#" data-bind="click: resetFilters">Reset Filter</a>
       <div id="locations-container" data-bind="foreach: filterLocations">
-        <div data-bind="text: title"></div>
+        <div class="featured-locations" data-bind="text: title, click: $root.popInfoWindow, attr: { id: title }"></div>
       </div>
     <section>
 
