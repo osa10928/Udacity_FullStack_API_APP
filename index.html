@@ -26,8 +26,8 @@
           Locations
         </h4>
       </header>
-      <form id="input-container" data-bind="submit: fireBoth">
-        <input data-bind="value: filterInput" />
+      <form id="input-container" data-bind="submit: fireFilters">
+        <input id="filterInput" data-bind="value: filterInput" />
         <button type="submit">Filter</button>
       </form>
       <div id="locations-container" data-bind="foreach: filterLocations">

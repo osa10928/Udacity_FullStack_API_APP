@@ -59,18 +59,24 @@ class MyApp {
       return locations
     })
     this.filterMarkers = () => {
-      console.log('hey')
-      let filterInput = this.filterInput().trim().replace(/ +/g, ' ').toLowerCase()
-      markers.map((marker) => {
-        if ((marker.title).indexOf(filterInput) === -1 || (marker.title).indexOf(filterInput) === undefined) {
-          marker.map = map
-        } else {
-          marker.map = null
-        }
-      })
-      console.log(markers)
+      if (this.filterInput()) {
+        let filterInput = this.filterInput().trim().replace(/ +/g, ' ').toLowerCase()
+        markers.map((marker) => {
+          let title = marker.title.trim().replace(/ +/g, ' ').toLowerCase()
+          if ((title).indexOf(filterInput) === -1) {
+            marker.setMap(null)
+          } else {
+            marker.setMap(map)
+          }
+        })
+      } else {
+        markers.map((marker) => {
+          marker.setMap(map)
+        })
+      }
     }
-    this.fireBoth = () => {
+    this.fireFilters = () => {
+      console.log("lalala")
       this.filterMarkers()
       this.filterLocations
     }
