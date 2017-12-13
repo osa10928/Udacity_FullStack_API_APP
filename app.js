@@ -51,13 +51,14 @@ function populateInfoWindow(marker, infoWindow) {
   // reset marker colors, then set selected marker color to green
   markers.map(marker => { marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')})
   marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+  // attach marker to infowindow then open infowindow
   infoWindow.marker = marker
   infoWindow.setContent('<div id="info-Window"><h4>' + marker.title + '</h4></div>')
   infoWindow.open(map, marker)
   infoWindow.addListener('closeclick', function() {
-    //document.getElementById(marker.title).classList.remove('location-selected')
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
   })
+  // after infowindow is open make ajax call to futhur populate window
   setInfoWindow(marker)
 }
 
