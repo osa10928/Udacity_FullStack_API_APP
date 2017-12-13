@@ -1,5 +1,27 @@
 import ko from 'knockout';
-import * as $ from 'jquery';
+
+
+export function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 29.7706 , lng: -95.4120 },
+    zoom: 16
+  });
+  infoWindow = new google.maps.InfoWindow();
+  for (var i=0;i<locations.length; i++) {
+    var marker = new google.maps.Marker({
+      position: locations[i].position,
+      map: map,
+      title: locations[i].title,
+      animation: google.maps.Animation.DROP,
+      icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+      id: i
+    });
+    markers.push(marker);
+    marker.addListener('click', function() {
+      populateInfoWindow(this, infoWindow)
+    });
+  }
+}
 
 
 window.initMap = initMap;
@@ -15,9 +37,13 @@ let locations = [
 let infoWindow;
 
 function populateInfoWindow(marker, infoWindow) {
+  // reset marker colors, then set selected marker color to green
+  markers.map(marker => { marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')})
+  marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+
+  // find div of selected marker and highlight by adding class
   if (infoWindow.marker != marker) {
     infoWindow.marker = marker
-    infoWindow.setContent('<div>' + marker.title + '</div>')
     let featuredLocations = document.getElementsByClassName('featured-locations')
     for (var i=0;i<featuredLocations.length;i++) {
       if (featuredLocations[i].id === marker.title) {
@@ -27,36 +53,39 @@ function populateInfoWindow(marker, infoWindow) {
       }
     }
   }
+  document.getElementById(marker.title).classList.add('location-selected')
+  infoWindow.setContent('<div id="info-Window"><h4>' + marker.title + '</h4></div>')
   infoWindow.open(map, marker)
   infoWindow.addListener('closeclick', function() {
     document.getElementById(marker.title).classList.remove('location-selected')
+    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
   })
-  document.getElementById(marker.title).classList.add('location-selected')
+  setInfoWindow(marker)
 }
 
-export function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 29.7706 , lng: -95.4120 },
-    zoom: 16
-  });
-  infoWindow = new google.maps.InfoWindow();
-  for (var i=0;i<locations.length; i++) {
-    var marker = new google.maps.Marker({
-      position: locations[i].position,
-      map: map,
-      title: locations[i].title,
-      animation: google.maps.Animation.DROP,
-      id: i
-    });
-    markers.push(marker);
-    marker.addListener('click', function() {
-      populateInfoWindow(this, infoWindow)
-    });
-  }
+function setInfoWindow(marker) {
+  let parameters = marker.title.replace(" ", "+")
+  let url = "https://cors-anywhere.herokuapp.com/https://en.wikipedia.org//w/api.php?action=query&format=json&origin=*&list=search&srsearch=" + parameters +"&srlimit=1&srprop=snippet"
+  $.ajax({
+    url: url,
+    type: "GET",
+    datatype: "json",
+  }) .done((json) => {
+    let link =  "https:/en.wikipedia.org/?curid=" + json.query.search[0]['pageid']
+    infoWindow.setContent('<div id="info-Window"><h4>' + marker.title + '</h4>' +
+    '<p>Feeling Luck? Click <a target="_blank" href="' + link + '">THIS</a> link to search <i>' + marker.title + '</i> in Wikipedia</p>' +
+    '<p>(Warning, <i>' + marker.title + '</i> might not have an actual wikipedia page)</p></div>')
+  }) .fail(( xhr, status, errorThrown ) => {
+    infoWindow.setContent('<div id="info-Window"><h4>' + marker.title + '</h4>' +
+    '<p>Failed to load resource for "Feeling Lucky" game. Try reloading page</p></div>')
+    console.log( "Error: " + errorThrown );
+    console.log( "Status: " + status );
+    console.dir( xhr );
+  })
 }
 
 
-class MyApp {
+class ViewModel {
   constructor() {
     this.locations = JSON.parse(JSON.stringify(locations))
     this.filterInput = ko.observable()
@@ -67,9 +96,8 @@ class MyApp {
       bars.push(document.getElementsByClassName("bar1")[0])
       bars.push(document.getElementsByClassName("bar2")[0])
       bars.push(document.getElementsByClassName("bar3")[0])
-      for (var i in bars) {
-        bars[i].classList.toggle("change")
-      }
+      bars.map(bar => {bar.classList.toggle("change")})
+      test()
     }
     this.filterLocations = ko.computed(() => {
       let locations = JSON.parse(JSON.stringify(this.locations))
@@ -82,7 +110,7 @@ class MyApp {
       }
       return locations
     })
-    this.filterMarkers = () => {
+    this.filterMarkers = ko.computed(() => {
       if (this.filterInput()) {
         let filterInput = this.filterInput().trim().replace(/ +/g, ' ').toLowerCase()
         markers.map((marker) => {
@@ -98,15 +126,9 @@ class MyApp {
           marker.setMap(map)
         })
       }
-    }
-    this.fireFilters = () => {
-      console.log("lalala")
-      this.filterMarkers()
-      this.filterLocations
-    }
+    })
     this.resetFilters = () => {
       this.filterInput("")
-      this.fireFilters()
     }
     this.popInfoWindow = (e) => {
       let marker = markers.filter((marker) => {
@@ -118,4 +140,4 @@ class MyApp {
 }
 
 
-ko.applyBindings(new MyApp())
+ko.applyBindings(new ViewModel())

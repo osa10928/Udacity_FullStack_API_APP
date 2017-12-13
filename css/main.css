@@ -149,3 +149,34 @@ section a {
   overflow: hidden;
   padding: 0;
 }
+
+#info-Window {
+  color: black !important;
+  background: #454040;
+  margin: auto;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#info-Window h4 {
+  color: black;
+  margin: 2% auto;
+  background: white;
+  text-align: center;
+}
+
+#info-Window p {
+  background: white;
+  margin: auto;
+  padding: 10px;
+}
+
+i {
+  font-weight: bolder;
+}
+
+div.gm-style-iw {
+  background: #454040;
+  padding: 0;
+}
