@@ -51,24 +51,11 @@ function populateInfoWindow(marker, infoWindow) {
   // reset marker colors, then set selected marker color to green
   markers.map(marker => { marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')})
   marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-
-  // find div of selected marker and highlight by adding class
-  if (infoWindow.marker != marker) {
-    infoWindow.marker = marker
-    let featuredLocations = document.getElementsByClassName('featured-locations')
-    for (var i=0;i<featuredLocations.length;i++) {
-      if (featuredLocations[i].id === marker.title) {
-        featuredLocations[i].classList.add('location-selected')
-      } else {
-        featuredLocations[i].className.indexOf('location-selected') > -1 ? featuredLocations[i].classList.remove('location-selected') : null
-      }
-    }
-  }
-  document.getElementById(marker.title).classList.add('location-selected')
+  infoWindow.marker = marker
   infoWindow.setContent('<div id="info-Window"><h4>' + marker.title + '</h4></div>')
   infoWindow.open(map, marker)
   infoWindow.addListener('closeclick', function() {
-    document.getElementById(marker.title).classList.remove('location-selected')
+    //document.getElementById(marker.title).classList.remove('location-selected')
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
   })
   setInfoWindow(marker)
@@ -100,14 +87,15 @@ class ViewModel {
   constructor() {
     this.locations = JSON.parse(JSON.stringify(locations))
     this.filterInput = ko.observable()
+    this.isFilterClosed = ko.observable(false)
+    this.selectedLocation = ko.observable(null)
     this.toggleOpenClose = () => {
-      let bars = [];
-      let filterSection = document.getElementById("filter-section")
-      filterSection.classList.toggle('hide')
-      bars.push(document.getElementsByClassName("bar1")[0])
-      bars.push(document.getElementsByClassName("bar2")[0])
-      bars.push(document.getElementsByClassName("bar3")[0])
-      bars.map(bar => {bar.classList.toggle("change")})
+      this.isFilterClosed(!ko.utils.unwrapObservable(this.isFilterClosed))
+    }
+    this.isSelectedLocation = (title) => {
+      if (title === ko.utils.unwrapObservable(this.selectedLocation)) {
+        return 'location-selected'
+      }
     }
     this.filterLocations = ko.computed(() => {
       let locations = JSON.parse(JSON.stringify(this.locations))
@@ -141,6 +129,7 @@ class ViewModel {
       this.filterInput("")
     }
     this.popInfoWindow = (e) => {
+      this.selectedLocation(e.title)
       let marker = markers.filter((marker) => {
         return e.title === marker.title
       })

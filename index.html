@@ -9,9 +9,9 @@
     <main>
       <header>
         <div id="menu-icon" data-bind="click: toggleOpenClose">
-          <div class="bar1 change"></div>
-          <div class="bar2 change"></div>
-          <div class="bar3 change"></div>
+          <div class="bar1 change" data-bind="css: { change: isFilterClosed }"></div>
+          <div class="bar2 change" data-bind="css: { change: isFilterClosed }"></div>
+          <div class="bar3 change" data-bind="css: { change: isFilterClosed }"></div>
         </div>
         <h2>
           Bars on Washington Street, Houston, TX
@@ -20,7 +20,7 @@
       <div id="map" data-bind="text: name">
       </div>
     </main>
-    <section id="filter-section">
+    <section id="filter-section" data-bind="css: { hide: isFilterClosed }">
       <header>
         <h4>
           Locations
@@ -32,7 +32,7 @@
       </form>
       <a href="#" data-bind="click: resetFilters">Reset Filter</a>
       <div id="locations-container" data-bind="foreach: filterLocations">
-        <div class="featured-locations" data-bind="text: title, click: $root.popInfoWindow, attr: { id: title }"></div>
+        <div class="featured-locations" data-bind="text: title, click: $root.popInfoWindow, attr: { id: title, class: $root.isSelectedLocation(title) }"></div>
       </div>
     <section>
 
