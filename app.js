@@ -23,8 +23,19 @@ export function initMap() {
   }
 }
 
+export function googleError() {
+  $('#map').html('<div id="error-message"><h1>Resource Failed To Load!</h1>' +
+   '<p>The resource/map you requested failed to load. Here are some trouble shooting methods</p>' +
+   '<ul>' +
+       '<li>Check that you have a strong internet connection</li>' +
+       '<li>Check that your browser has javascript enabled</li.' +
+       '<li>After checking these items, try reloading the page' +
+   '</ul></div>')
+}
+
 
 window.initMap = initMap;
+window.googleError = googleError;
 let map;
 let markers = [];
 let locations = [
@@ -97,7 +108,6 @@ class ViewModel {
       bars.push(document.getElementsByClassName("bar2")[0])
       bars.push(document.getElementsByClassName("bar3")[0])
       bars.map(bar => {bar.classList.toggle("change")})
-      test()
     }
     this.filterLocations = ko.computed(() => {
       let locations = JSON.parse(JSON.stringify(this.locations))
