@@ -12,7 +12,7 @@ Use npm to install the package.json dependencies.
 1. Clone/download the repository.
 2. Navigate to the repository directory on your command line interface.
 3. Install the dependencies by running `npm install`
-4. Bundle Javascript by running `webpack`
+4. Create a bundle.js file by running `webpack`
 5. Serve app to your browser by running `npm run dev`
 6. Open browser and navigate to localhost:8080
 
