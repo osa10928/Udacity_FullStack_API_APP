@@ -3,4 +3,4 @@ node_modules/
 ./package.json
 ./webpack.config.js
 build/bundle.js
-build.js.map
+build/bundle.js.map
