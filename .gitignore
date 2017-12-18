@@ -2,3 +2,5 @@ node_modules/
 ./package-lock.json
 ./package.json
 ./webpack.config.js
+build/bundle.js
+build.js.map
