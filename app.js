@@ -88,7 +88,7 @@ class ViewModel {
   constructor() {
     this.locations = JSON.parse(JSON.stringify(locations))
     this.filterInput = ko.observable()
-    this.isFilterClosed = ko.observable(false)
+    this.isFilterClosed = ko.observable(true)
     this.selectedLocation = ko.observable(null)
     this.toggleOpenClose = () => {
       this.isFilterClosed(!ko.utils.unwrapObservable(this.isFilterClosed))

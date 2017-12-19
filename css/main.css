@@ -62,14 +62,15 @@ h2 {
 section {
   width: 28%;
   height: 100%;
-  padding: 0 2.5%;
-  min-width: 150px;
+  max-width: 0;
+  min-width: 0;
+  padding: 0;
   background: black;
   order: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1000px;
+  overflow: hidden;
   transition: max-width .2s linear, padding .5s linear, min-width .5s linear;
 }
 
@@ -143,11 +144,10 @@ section a {
   color: black;
 }
 
-.hide {
-  max-width: 0;
-  min-width: 0;
-  overflow: hidden;
-  padding: 0;
+.show {
+  max-width: 1000px;
+  padding: 0 2.5%;
+  min-width: 150px;
 }
 
 #info-Window {

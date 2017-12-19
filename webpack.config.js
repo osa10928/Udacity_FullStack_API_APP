@@ -8,6 +8,10 @@ module.exports = {
 	  	path: path.resolve('build', ''),
 	  	filename: 'bundle.js'
 	  },
+    devServer: {
+      host: '0.0.0.0',
+      port: 8080
+    },
 	  module: {
       noParse: /node_modules\/knockout\/build\/output\/*.js/,
       loaders: [
@@ -31,3 +35,4 @@ module.exports = {
       })
     ]
 };
+

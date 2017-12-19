@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neighborhood Map</title>
     <link rel="stylesheet" type="text/css" href="./css/main.css" />
   </head>
@@ -20,7 +21,7 @@
       <div id="map" data-bind="text: name">
       </div>
     </main>
-    <section id="filter-section" data-bind="css: { hide: isFilterClosed }">
+    <section id="filter-section" data-bind="css: { show: isFilterClosed }">
       <header>
         <h4>
           Locations
