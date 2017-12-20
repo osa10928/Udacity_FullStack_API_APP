@@ -19,6 +19,7 @@ export function initMap() {
     markers.push(marker);
     marker.addListener('click', function() {
       populateInfoWindow(this, infoWindow)
+      map.setCenter(marker.getPosition());
     });
   }
 }
